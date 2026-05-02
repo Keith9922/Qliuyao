@@ -250,6 +250,15 @@ body::before {
   border-color: rgba(146, 174, 255, 0.7);
   box-shadow: 0 6px 22px rgba(71, 91, 255, 0.25);
 }
+.hero-chip-gold {
+  border-color: rgba(189, 165, 102, 0.4);
+  background: rgba(20, 15, 8, 0.45);
+  color: theme("colors.gold.200");
+}
+.hero-chip-gold:hover {
+  border-color: rgba(237, 196, 78, 0.7);
+  box-shadow: 0 6px 22px rgba(237, 196, 78, 0.18);
+}
 .hero-chip-cinnabar {
   border-color: rgba(196, 74, 54, 0.45);
   background: rgba(124, 38, 24, 0.2);

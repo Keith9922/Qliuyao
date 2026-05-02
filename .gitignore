@@ -16,3 +16,4 @@ venv/
 # 已"故意"不加入 .gitignore，让接收者开箱即用。
 # 如果你 fork 后要用自己的 key，建议把下行解开：
 # .env
+.claude/
