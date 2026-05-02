@@ -3,7 +3,7 @@ import { Noto_Serif_SC, Noto_Sans_SC, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { HistoryDrawer } from "@/components/HistoryDrawer";
+import { HistoryFab } from "@/components/HistoryFab";
 
 const serif = Noto_Serif_SC({
   subsets: ["latin"],
@@ -78,7 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main id="main-content" className="flex-1">{children}</main>
           <SiteFooter />
         </div>
-        <HistoryDrawer />
+        <HistoryFab />
       </body>
     </html>
   );

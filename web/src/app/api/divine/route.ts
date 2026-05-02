@@ -3,6 +3,7 @@ import { castSixYaos, yaosToBinary, changingIndices, zhuZiRule } from "@/lib/qua
 import { getHexagram } from "@/lib/hexagrams";
 import { fullAnalysis } from "@/lib/analysis";
 import { parseTrigrams, trigramPairLabel } from "@/lib/trigrams";
+import type { DivineResult } from "@/lib/types";
 
 export const runtime = "edge";
 
@@ -25,25 +26,10 @@ export async function POST() {
   const benTrigrams = parseTrigrams(ben);
 
   const hasChange = moving.length > 0;
-  const bianHex = hasChange ? getHexagram(bian) : null;
-  const bianAnalysis = hasChange ? fullAnalysis(bian) : null;
-  const bianTrigrams = hasChange ? parseTrigrams(bian) : null;
 
-  // 衍生卦
-  const huHex = getHexagram(benAnalysis.huGua);
-  const cuoHex = getHexagram(benAnalysis.cuoGua);
-  const zongHex = getHexagram(benAnalysis.zongGua);
-
-  return NextResponse.json({
+  const result: DivineResult = {
     castAt: new Date().toISOString(),
-    yaos: yaos.map((y) => ({
-      index: y.index,
-      bitstring: y.bitstring,
-      ones: y.ones,
-      name: y.name,
-      isYang: y.isYang,
-      isChanging: y.isChanging,
-    })),
+    yaos,
     ben: {
       binary: ben,
       hex: benHex,
@@ -55,19 +41,20 @@ export async function POST() {
     bian: hasChange
       ? {
           binary: bian,
-          hex: bianHex,
-          analysis: bianAnalysis,
-          lower: bianTrigrams!.lower,
-          upper: bianTrigrams!.upper,
+          hex: getHexagram(bian),
+          analysis: fullAnalysis(bian),
+          ...parseTrigrams(bian),
           label: trigramPairLabel(bian),
         }
       : null,
     derived: {
-      hu: { binary: benAnalysis.huGua, hex: huHex },
-      cuo: { binary: benAnalysis.cuoGua, hex: cuoHex },
-      zong: { binary: benAnalysis.zongGua, hex: zongHex },
+      hu: { binary: benAnalysis.huGua, hex: getHexagram(benAnalysis.huGua) },
+      cuo: { binary: benAnalysis.cuoGua, hex: getHexagram(benAnalysis.cuoGua) },
+      zong: { binary: benAnalysis.zongGua, hex: getHexagram(benAnalysis.zongGua) },
     },
     moving,
     rule: zhuZiRule(moving.length, ben),
-  });
+  };
+
+  return NextResponse.json(result);
 }

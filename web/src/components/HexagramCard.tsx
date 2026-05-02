@@ -5,15 +5,29 @@ import { HexagramGlyph } from "./HexagramGlyph";
 import type { Hexagram } from "@/lib/hexagrams";
 import type { Trigram } from "@/lib/trigrams";
 
+type Variant = "ben" | "bian" | "plain";
+
 interface Props {
   binary: string;
   hex: Hexagram;
   lower: Trigram;
   upper: Trigram;
   changing?: number[];
-  variant?: "ben" | "bian" | "plain";
+  variant?: Variant;
   animate?: boolean;
 }
+
+const VARIANT_TAG: Record<Variant, { label: string; classes: string } | null> = {
+  ben: {
+    label: "本卦",
+    classes: "from-gold-600/40 to-gold-800/40 text-gold-200 border-gold-500/40",
+  },
+  bian: {
+    label: "变卦",
+    classes: "from-quantum-700/40 to-quantum-900/40 text-quantum-200 border-quantum-500/40",
+  },
+  plain: null,
+};
 
 export function HexagramCard({
   binary,
@@ -24,11 +38,7 @@ export function HexagramCard({
   variant = "ben",
   animate = true,
 }: Props) {
-  const tagText = variant === "ben" ? "本卦" : variant === "bian" ? "变卦" : null;
-  const tagColor =
-    variant === "ben"
-      ? "from-gold-600/40 to-gold-800/40 text-gold-200 border-gold-500/40"
-      : "from-quantum-700/40 to-quantum-900/40 text-quantum-200 border-quantum-500/40";
+  const variantTag = VARIANT_TAG[variant];
 
   return (
     <motion.div
@@ -37,11 +47,11 @@ export function HexagramCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      {tagText && (
+      {variantTag && (
         <span
-          className={`absolute -top-3 left-6 rounded-md border bg-gradient-to-br px-3 py-1 font-display text-xs tracking-[0.3em] ${tagColor}`}
+          className={`absolute -top-3 left-6 rounded-md border bg-gradient-to-br px-3 py-1 font-display text-xs tracking-[0.3em] ${variantTag.classes}`}
         >
-          {tagText}
+          {variantTag.label}
         </span>
       )}
 

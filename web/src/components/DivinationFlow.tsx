@@ -9,24 +9,9 @@ import { DerivedHexagrams } from "./DerivedHexagrams";
 import { Interpretation } from "./Interpretation";
 import { saveHistory } from "@/lib/history";
 import { ArrowRight, ArrowLeft, Copy, Check, Taiji } from "./Icon";
+import { POSITION_NAME } from "@/lib/analysis";
 import type { Yao } from "@/lib/quantum";
-import type { Hexagram } from "@/lib/hexagrams";
-import type { Trigram } from "@/lib/trigrams";
-import type { FullAnalysis } from "@/lib/analysis";
-
-type DivineResult = {
-  castAt: string;
-  yaos: Yao[];
-  ben: { binary: string; hex: Hexagram; analysis: FullAnalysis; lower: Trigram; upper: Trigram; label: string };
-  bian: { binary: string; hex: Hexagram; analysis: FullAnalysis; lower: Trigram; upper: Trigram; label: string } | null;
-  derived: {
-    hu: { binary: string; hex: Hexagram };
-    cuo: { binary: string; hex: Hexagram };
-    zong: { binary: string; hex: Hexagram };
-  };
-  moving: number[];
-  rule: string;
-};
+import type { DivineResult } from "@/lib/types";
 
 type Phase = "ask" | "casting" | "results";
 
@@ -48,7 +33,6 @@ export function DivinationFlow() {
   const [result, setResult] = useState<DivineResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  const interpretationRef = useRef<HTMLDivElement>(null);
 
   const cast = async () => {
     if (!question.trim()) return;
@@ -184,7 +168,7 @@ export function DivinationFlow() {
               )}
             </div>
 
-            <section ref={interpretationRef}>
+            <section>
               <Interpretation
                 question={question}
                 yaos={result.yaos}
@@ -383,7 +367,7 @@ function YaoSlot({
   index: number;
   pending: boolean;
 }) {
-  const posName = ["初", "二", "三", "四", "五", "上"][index];
+  const posName = POSITION_NAME[index];
   if (!yao) {
     return (
       <div

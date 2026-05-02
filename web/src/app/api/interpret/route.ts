@@ -16,8 +16,10 @@ interface InterpretRequest {
 /**
  * POST /api/interpret
  *
- * Streams the AI interpretation back as SSE.
- * Each chunk is a `data: {"text": "..."}` line; final `data: [DONE]`.
+ * 把 DeepSeek 的 SSE 输出转发给前端。
+ * 关键点：
+ *   - 客户端 abort 时通过 ReadableStream.cancel() 关掉上游连接，避免继续烧 token
+ *   - 解析跨数据块的换行；只发送 `data: {"text":...}` 简化协议
  */
 export async function POST(req: Request) {
   let body: InterpretRequest;
@@ -49,6 +51,9 @@ export async function POST(req: Request) {
   const model = process.env.LLM_MODEL || DEFAULT_MODEL;
   const userPrompt = buildUserPrompt(question, yaos, benBin, bianBin);
 
+  // 用一个 AbortController 让 cancel() 路径能传递到上游 fetch
+  const upstreamCtrl = new AbortController();
+
   const upstream = await fetch(`${baseUrl}/chat/completions`, {
     method: "POST",
     headers: {
@@ -65,6 +70,7 @@ export async function POST(req: Request) {
       max_tokens: 2400,
       stream: true,
     }),
+    signal: upstreamCtrl.signal,
   });
 
   if (!upstream.ok || !upstream.body) {
@@ -78,19 +84,18 @@ export async function POST(req: Request) {
     );
   }
 
-  // Re-stream OpenAI SSE → simplified SSE
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
+  const reader = upstream.body.getReader();
 
   const stream = new ReadableStream({
     async start(controller) {
-      const reader = upstream.body!.getReader();
       let buffer = "";
       const send = (obj: unknown) =>
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(obj)}\n\n`));
 
       try {
-        while (true) {
+        for (;;) {
           const { done, value } = await reader.read();
           if (done) break;
           buffer += decoder.decode(value, { stream: true });
@@ -107,8 +112,10 @@ export async function POST(req: Request) {
               return;
             }
             try {
-              const parsed = JSON.parse(payload);
-              const delta = parsed?.choices?.[0]?.delta?.content;
+              const parsed = JSON.parse(payload) as {
+                choices?: { delta?: { content?: string } }[];
+              };
+              const delta = parsed.choices?.[0]?.delta?.content;
               if (typeof delta === "string" && delta.length > 0) {
                 send({ text: delta });
               }
@@ -122,6 +129,21 @@ export async function POST(req: Request) {
       } catch (err) {
         send({ error: err instanceof Error ? err.message : "stream error" });
         controller.close();
+      } finally {
+        try {
+          reader.releaseLock();
+        } catch {
+          /* already released */
+        }
+      }
+    },
+    cancel(reason) {
+      // 客户端断开（如关闭页面）→ 关掉上游连接，避免继续烧 token
+      upstreamCtrl.abort(reason);
+      try {
+        reader.cancel(reason);
+      } catch {
+        /* already canceled */
       }
     },
   });

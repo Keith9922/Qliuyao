@@ -2,8 +2,10 @@
  * 卦象分析工具 —— 衍生卦计算 + 爻位结构分析（纯函数）。
  */
 
-const POSITION_IS_YANG = [true, false, true, false, true, false] as const;
-const POSITION_NAME = ["初", "二", "三", "四", "五", "上"] as const;
+/** 爻位的"阴阳属性"：奇数位（1/3/5）= 阳位；偶数位（2/4/6）= 阴位。 */
+export const POSITION_IS_YANG = [true, false, true, false, true, false] as const;
+/** 爻位汉字名（自下而上）：初、二、三、四、五、上。 */
+export const POSITION_NAME = ["初", "二", "三", "四", "五", "上"] as const;
 
 /** 互卦：取 2、3、4 爻为新下卦，3、4、5 爻为新上卦。 */
 export function huGua(binary: string): string {

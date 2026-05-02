@@ -1,21 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import type { FullAnalysis } from "@/lib/analysis";
+import { POSITION_NAME, type FullAnalysis } from "@/lib/analysis";
 import { cn } from "@/lib/utils";
 
 /**
  * 卦象解析面板：当位 / 中正 / 应位 / 承乘 一站式可视化。
  *
- * 这是"重点优化"的解析模块——它把三千年来易学家用文字讲的爻位关系
- * 可视化成几个清楚的小图，让初学者也能直观感受。
+ * 把三千年来易学家用文字讲的爻位关系，做成可视化卡片。
  */
 interface Props {
   analysis: FullAnalysis;
   changing?: number[];
 }
-
-const POS_NAMES = ["初", "二", "三", "四", "五", "上"];
 
 export function StructureAnalysis({ analysis, changing = [] }: Props) {
   return (
@@ -65,7 +62,7 @@ function PositionSection({ analysis, changing = [] }: Props) {
                 <YaoMini isYang={p.isYang} small />
                 <span className="ml-2 text-ink-300">在</span>
                 <span className="ml-1 text-ink-200">
-                  {POS_NAMES[p.index]}{p.positionIsYang ? "（阳）" : "（阴）"}
+                  {POSITION_NAME[p.index]}{p.positionIsYang ? "（阳）" : "（阴）"}
                 </span>
                 <span className="ml-1 text-ink-300">位</span>
               </span>
