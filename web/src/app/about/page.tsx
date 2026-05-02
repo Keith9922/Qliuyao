@@ -30,7 +30,7 @@ export default function AboutPage() {
           </p>
           <blockquote>「您来晚了 4000 多年。」</blockquote>
           <p>白晋的回信让他愣了。附信附上了一张图：邵雍的「伏羲六十四卦次序图」。</p>
-          <pre className="my-3 rounded-md border border-ink-700 bg-ink-900/60 p-4 font-mono text-xs leading-loose text-gold-200">
+          <pre className="my-3 overflow-x-auto rounded-md border border-ink-700 bg-ink-900/60 p-4 font-mono text-xs leading-loose text-gold-200">
 {`☷  000   坤
 ☶  001   艮
 ☵  010   坎
@@ -56,7 +56,7 @@ export default function AboutPage() {
             是测量瞬间会「坍缩」成 0 或 1 的物理事件。
           </p>
           <p>这个项目把这个故事画完一整圈：</p>
-          <pre className="my-3 rounded-md border border-ink-700 bg-ink-900/60 p-4 font-mono text-xs text-gold-200">
+          <pre className="my-3 overflow-x-auto rounded-md border border-ink-700 bg-ink-900/60 p-3 font-mono text-[11px] leading-relaxed text-gold-200 sm:p-4 sm:text-xs">
 {`邵雍 (1011)  →  莱布尼茨 (1703)  →  量子比特 (今天)
    阴阳爻        二进制 0/1        |0⟩ + |1⟩`}
           </pre>
