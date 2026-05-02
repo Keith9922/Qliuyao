@@ -1,0 +1,347 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --font-{serif,sans,mono} 由 next/font 在 <html> 上注入。
+   --font-display 复用 serif（衬线作展示字）。 */
+:root {
+  --font-display: var(--font-serif);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans), "PingFang SC", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background:
+    radial-gradient(ellipse at top, #1a140d 0%, #0c0a07 60%) fixed,
+    #0c0a07;
+  color: theme("colors.ink.100");
+  min-height: 100dvh;
+  font-feature-settings: "kern", "liga", "calt";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 数据 / 计数等数字使用等宽变体，避免布局抖动 */
+.tabular-nums,
+.font-mono,
+[class*="font-mono"] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 古卷纸纹理叠加 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(196,133,29,0.05), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(124,38,24,0.04), transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 文字渐变金色 */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #f4dd8a 0%, #c4851d 50%, #f4dd8a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* 量子蓝渐变文字 */
+.text-quantum-gradient {
+  background: linear-gradient(135deg, #92aeff 0%, #475bff 50%, #92aeff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* 古卷纸卡片：暖色边框 + 半透明深色背景 */
+.scroll-card {
+  background:
+    linear-gradient(135deg, rgba(28,20,12,0.85), rgba(20,15,8,0.92));
+  border: 1px solid rgba(189,165,102,0.2);
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    0 4px 24px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(237,196,78,0.08);
+}
+
+.scroll-card-elevated {
+  background:
+    linear-gradient(135deg, rgba(36,26,16,0.92), rgba(24,18,10,0.95));
+  border: 1px solid rgba(237,196,78,0.25);
+  border-radius: 16px;
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(237,196,78,0.05),
+    inset 0 1px 0 rgba(237,196,78,0.12);
+}
+
+/* 朱印章纹饰 */
+.stamp-border {
+  position: relative;
+}
+.stamp-border::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(196,74,54,0.2);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* 爻线绘制动画 */
+.yao-line {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(189,165,102,0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(189,165,102,0.4);
+}
+
+/* 链接选中态 */
+::selection {
+  background: rgba(237,196,78,0.3);
+  color: theme("colors.ink.50");
+}
+
+/* 量子电路 SVG 线条动画 */
+.circuit-wire {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-wire 1.5s ease-out forwards;
+}
+@keyframes draw-wire {
+  to { stroke-dashoffset: 0; }
+}
+
+/* 闪光横扫（用于"摇卦中"提示） */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    rgba(237,196,78,0.6) 0%,
+    rgba(255,235,180,1) 50%,
+    rgba(237,196,78,0.6) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2s linear infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* 印章风格按钮 — 触控目标遵守 ≥44px 最小高度（Apple HIG） */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 28px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, #c4851d 0%, #a06517 100%);
+  color: #15110a;
+  border: 1px solid #edc44e;
+  border-radius: 10px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease;
+  box-shadow:
+    0 4px 16px rgba(237,196,78,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow:
+    0 8px 28px rgba(237,196,78,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+}
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 22px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  background: transparent;
+  color: theme("colors.gold.300");
+  border: 1px solid rgba(189,165,102,0.3);
+  border-radius: 10px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.btn-ghost:hover {
+  background: rgba(237,196,78,0.08);
+  border-color: rgba(237,196,78,0.5);
+}
+.btn-ghost:active {
+  transform: scale(0.98);
+}
+
+/* 小尺寸按钮：仍要 ≥44px 触控（在小字体上靠 padding 撑起来） */
+.btn-primary.btn-sm,
+.btn-ghost.btn-sm {
+  min-height: 40px;
+  padding: 8px 16px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+/* 朱砂印章 */
+.zhusha-stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  background: linear-gradient(135deg, #a23323 0%, #7c2618 100%);
+  color: #f4dd8a;
+  border: 2px solid #561811;
+  border-radius: 4px;
+  box-shadow:
+    inset 0 0 0 1px rgba(244,221,138,0.3),
+    0 2px 8px rgba(124,38,24,0.4);
+  letter-spacing: 0.2em;
+}
+
+/* prose 风格 */
+.prose-custom {
+  color: theme("colors.ink.100");
+  line-height: 1.85;
+}
+.prose-custom h1 { font-family: var(--font-display); font-size: 1.875rem; color: theme("colors.gold.300"); margin: 1.5rem 0 1rem; }
+.prose-custom h2 { font-family: var(--font-display); font-size: 1.5rem; color: theme("colors.gold.300"); margin: 1.25rem 0 0.75rem; }
+.prose-custom h3 { font-family: var(--font-display); font-size: 1.25rem; color: theme("colors.gold.200"); margin: 1rem 0 0.5rem; }
+.prose-custom p { margin: 0.75rem 0; }
+.prose-custom strong { color: theme("colors.gold.200"); font-weight: 600; }
+.prose-custom em { color: theme("colors.cinnabar.400"); font-style: normal; }
+.prose-custom blockquote {
+  border-left: 3px solid theme("colors.gold.400");
+  padding-left: 1rem;
+  font-style: italic;
+  color: theme("colors.ink.200");
+  margin: 1rem 0;
+}
+.prose-custom code {
+  background: rgba(189,165,102,0.1);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+.prose-custom ul, .prose-custom ol { padding-left: 1.5rem; margin: 0.75rem 0; }
+.prose-custom li { margin: 0.4rem 0; }
+.prose-custom a {
+  color: theme("colors.gold.300");
+  text-decoration: underline;
+  text-decoration-color: rgba(237,196,78,0.4);
+  text-underline-offset: 3px;
+}
+.prose-custom a:hover { color: theme("colors.gold.200"); }
+
+/* 占用 reduced-motion 时禁用大部分动画 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 打印样式：让卦象 + 卦辞 在打印时可读 */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  body::before {
+    display: none !important;
+  }
+  header[class*="sticky"], footer, button, a[href^="#"], aside {
+    display: none !important;
+  }
+  .scroll-card, .scroll-card-elevated {
+    background: #fff !important;
+    border-color: #999 !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+  .text-gold-200, .text-gold-100, .text-gold-300 {
+    color: #4a3a14 !important;
+  }
+  .text-ink-100, .text-ink-200, .text-ink-300 {
+    color: #333 !important;
+  }
+}
+
+/* 焦点可见的高对比环 */
+:focus-visible {
+  outline: 2px solid theme("colors.gold.300");
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline-offset: 4px;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 60;
+  padding: 8px 16px;
+  background: theme("colors.gold.500");
+  color: theme("colors.ink.950");
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 16px;
+}
