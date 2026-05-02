@@ -35,7 +35,7 @@ function PositionSection({ analysis, changing = [] }: Props) {
       <header className="mb-3 flex items-center justify-between">
         <div>
           <h4 className="font-display text-base text-gold-200">爻位 · 当位 · 中正</h4>
-          <p className="text-[11px] text-ink-300">
+          <p className="text-[12px] text-ink-300">
             阳爻须居阳位（初/三/五），阴爻须居阴位（二/四/上）；二、五爻为中位
           </p>
         </div>
@@ -96,7 +96,7 @@ function CorrespondenceSection({ analysis }: { analysis: FullAnalysis }) {
       <header className="mb-3 flex items-center justify-between">
         <div>
           <h4 className="font-display text-base text-gold-200">应位关系</h4>
-          <p className="text-[11px] text-ink-300">
+          <p className="text-[12px] text-ink-300">
             初-四 / 二-五 / 三-上 三对：阴阳相对则有应（顺），同性则敌应（阻）
           </p>
         </div>
@@ -147,7 +147,7 @@ function CorrespondenceSection({ analysis }: { analysis: FullAnalysis }) {
               <div className={cn("mt-1.5 text-xs font-display", good ? "text-gold-300" : "text-cinnabar-400")}>
                 {c.relation}
               </div>
-              <div className="text-[11px] text-ink-400">{c.description}</div>
+              <div className="mt-0.5 text-[11px] text-ink-400">{c.description}</div>
             </motion.div>
           );
         })}

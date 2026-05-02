@@ -1,13 +1,14 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { QuantumCircuit } from "./QuantumCircuit";
 import { HexagramCard } from "./HexagramCard";
 import { StructureAnalysis } from "./StructureAnalysis";
 import { DerivedHexagrams } from "./DerivedHexagrams";
 import { Interpretation } from "./Interpretation";
 import { saveHistory } from "@/lib/history";
+import { ArrowRight, ArrowLeft, Copy, Check, Taiji } from "./Icon";
 import type { Yao } from "@/lib/quantum";
 import type { Hexagram } from "@/lib/hexagrams";
 import type { Trigram } from "@/lib/trigrams";
@@ -264,17 +265,20 @@ function AskCard({
         </span>
       </div>
 
-      <div className="flex flex-wrap gap-1.5">
-        {SUGGESTIONS.map((s) => (
-          <button
-            key={s}
-            onClick={() => setQuestion(s)}
-            type="button"
-            className="rounded-full border border-ink-600/50 bg-ink-900/40 px-3 py-1 text-xs text-ink-200 transition hover:border-gold-500/40 hover:text-gold-200"
-          >
-            {s}
-          </button>
-        ))}
+      <div>
+        <p className="mb-2 text-[11px] tracking-widest text-ink-400">参考问句</p>
+        <div className="flex flex-wrap gap-2">
+          {SUGGESTIONS.map((s) => (
+            <button
+              key={s}
+              onClick={() => setQuestion(s)}
+              type="button"
+              className="min-h-[36px] rounded-full border border-ink-600/50 bg-ink-900/40 px-3.5 py-1.5 text-[13px] leading-snug text-ink-200 transition hover:border-gold-500/40 hover:bg-ink-800/40 hover:text-gold-200 focus-visible:border-gold-500/60"
+            >
+              {s}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="flex flex-col items-center justify-between gap-3 border-t border-ink-700/40 pt-4 md:flex-row">
@@ -288,9 +292,7 @@ function AskCard({
           disabled={!question.trim()}
         >
           <span>起 · 卦</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          <ArrowRight size={16} />
         </button>
       </div>
 
@@ -479,12 +481,14 @@ function ResultsHeader({
         </div>
         <p className="mt-2 text-[11px] text-ink-400">{result.rule}</p>
       </div>
-      <div className="flex shrink-0 gap-2 self-start md:self-center">
-        <button onClick={onCopy} type="button" className="btn-ghost text-sm" aria-label="复制卦象摘要">
-          {copied ? "✓ 已复制" : "📋 复制摘要"}
+      <div className="flex shrink-0 flex-wrap gap-2 self-start md:self-center">
+        <button onClick={onCopy} type="button" className="btn-ghost btn-sm" aria-label="复制卦象摘要">
+          {copied ? <Check size={14} /> : <Copy size={14} />}
+          <span>{copied ? "已复制" : "复制摘要"}</span>
         </button>
-        <button onClick={onReset} type="button" className="btn-ghost text-sm">
-          ← 再起一卦
+        <button onClick={onReset} type="button" className="btn-ghost btn-sm">
+          <ArrowLeft size={14} />
+          <span>再起一卦</span>
         </button>
       </div>
     </div>
@@ -497,8 +501,8 @@ function NoChangeCard({ rule }: { rule: string }) {
       <span className="absolute -top-3 left-6 rounded-md border border-quantum-500/40 bg-gradient-to-br from-quantum-700/40 to-quantum-900/40 px-3 py-1 font-display text-xs tracking-[0.3em] text-quantum-200">
         无变卦
       </span>
-      <span className="grid h-20 w-20 place-items-center rounded-full border border-gold-500/30 bg-ink-900/60 font-display text-3xl text-gold-300">
-        ☯
+      <span className="grid h-20 w-20 place-items-center rounded-full border border-gold-500/30 bg-ink-900/60 text-gold-300">
+        <Taiji size={32} />
       </span>
       <h3 className="font-display text-xl text-gold-200">六爻皆静</h3>
       <p className="max-w-sm text-sm leading-relaxed text-ink-200">

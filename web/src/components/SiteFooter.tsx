@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Taiji } from "./Icon";
 
 export function SiteFooter() {
   return (
@@ -7,8 +8,8 @@ export function SiteFooter() {
         <div className="grid gap-8 md:grid-cols-4">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3">
-              <span className="grid h-9 w-9 place-items-center rounded-md border border-gold-500/30 bg-gradient-to-br from-cinnabar-700/30 to-cinnabar-800/30 font-display text-lg text-gold-200">
-                ☯
+              <span className="grid h-9 w-9 place-items-center rounded-md border border-gold-500/30 bg-gradient-to-br from-cinnabar-700/30 to-cinnabar-800/30 text-gold-200">
+                <Taiji size={18} />
               </span>
               <span className="font-display text-lg text-gold-200">量子六爻</span>
             </div>

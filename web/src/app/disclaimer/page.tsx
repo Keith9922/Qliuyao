@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Alert } from "@/components/Icon";
 
 export const metadata: Metadata = {
   title: "免责声明",
@@ -20,7 +21,10 @@ export default function DisclaimerPage() {
 
       <div className="mt-10 scroll-card-elevated stamp-border p-7 md:p-10">
         <div className="mb-6 rounded-md border border-cinnabar-500/40 bg-cinnabar-700/20 px-5 py-4">
-          <p className="font-display text-base text-cinnabar-300">⚠ 重要提示</p>
+          <p className="flex items-center gap-2 font-display text-base text-cinnabar-300">
+            <Alert size={18} />
+            <span>重要提示</span>
+          </p>
           <p className="mt-2 text-sm leading-relaxed text-ink-100">
             <strong>本项目内容仅供娱乐与文化体验，仅作为反思视角参考，
               不作为人生重大关键节点的决策依据。</strong>

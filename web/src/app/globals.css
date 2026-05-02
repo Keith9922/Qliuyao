@@ -2,11 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* --font-{serif,sans,mono} 由 next/font 在 <html> 上注入。
+   --font-display 复用 serif（衬线作展示字）。 */
 :root {
-  --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
-  --font-sans: "Noto Sans SC", "PingFang SC", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", "SF Mono", "Menlo", monospace;
-  --font-display: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
+  --font-display: var(--font-serif);
 }
 
 html {
@@ -15,15 +14,22 @@ html {
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-sans), "PingFang SC", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   background:
     radial-gradient(ellipse at top, #1a140d 0%, #0c0a07 60%) fixed,
     #0c0a07;
   color: theme("colors.ink.100");
-  min-height: 100vh;
+  min-height: 100dvh;
   font-feature-settings: "kern", "liga", "calt";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* 数据 / 计数等数字使用等宽变体，避免布局抖动 */
+.tabular-nums,
+.font-mono,
+[class*="font-mono"] {
+  font-variant-numeric: tabular-nums;
 }
 
 /* 古卷纸纹理叠加 */
@@ -149,22 +155,27 @@ body::before {
   100% { background-position: -100% 0; }
 }
 
-/* 印章风格按钮 */
+/* 印章风格按钮 — 触控目标遵守 ≥44px 最小高度（Apple HIG） */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 28px;
+  min-height: 44px;
+  padding: 10px 28px;
   font-family: var(--font-display);
   font-weight: 500;
+  font-size: 15px;
   letter-spacing: 0.1em;
   background: linear-gradient(135deg, #c4851d 0%, #a06517 100%);
   color: #15110a;
   border: 1px solid #edc44e;
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  touch-action: manipulation;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease;
   box-shadow:
     0 4px 16px rgba(237,196,78,0.25),
     inset 0 1px 0 rgba(255,255,255,0.2);
@@ -176,7 +187,7 @@ body::before {
     inset 0 1px 0 rgba(255,255,255,0.3);
 }
 .btn-primary:active:not(:disabled) {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
 }
 .btn-primary:disabled {
   opacity: 0.5;
@@ -188,19 +199,34 @@ body::before {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 24px;
+  min-height: 44px;
+  padding: 10px 22px;
   font-family: var(--font-display);
+  font-size: 14px;
   letter-spacing: 0.05em;
   background: transparent;
   color: theme("colors.gold.300");
   border: 1px solid rgba(189,165,102,0.3);
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  touch-action: manipulation;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 .btn-ghost:hover {
   background: rgba(237,196,78,0.08);
   border-color: rgba(237,196,78,0.5);
+}
+.btn-ghost:active {
+  transform: scale(0.98);
+}
+
+/* 小尺寸按钮：仍要 ≥44px 触控（在小字体上靠 padding 撑起来） */
+.btn-primary.btn-sm,
+.btn-ghost.btn-sm {
+  min-height: 40px;
+  padding: 8px 16px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
 }
 
 /* 朱砂印章 */

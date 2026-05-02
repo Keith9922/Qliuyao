@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { Taiji, Menu, Close } from "./Icon";
 
 const NAV = [
   { href: "/", label: "起卦", desc: "Cast" },
@@ -20,15 +21,15 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-ink-700/50 bg-ink-950/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4">
-        <Link href="/" className="group flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-md border border-gold-500/30 bg-gradient-to-br from-cinnabar-700/40 to-cinnabar-800/40 font-display text-xl text-gold-200 transition group-hover:border-gold-400/60 group-hover:shadow-glow-gold">
-            ☯
+        <Link href="/" className="group flex items-center gap-3" aria-label="量子六爻 · 回到首页">
+          <span className="grid h-11 w-11 place-items-center rounded-md border border-gold-500/30 bg-gradient-to-br from-cinnabar-700/40 to-cinnabar-800/40 text-gold-200 transition group-hover:border-gold-400/60 group-hover:shadow-glow-gold">
+            <Taiji size={22} />
           </span>
           <span>
             <span className="block font-display text-xl font-semibold tracking-wider text-gold-200">
               量子六爻
             </span>
-            <span className="block text-[10px] tracking-[0.3em] text-ink-300">
+            <span className="block text-[11px] tracking-[0.3em] text-ink-300">
               QUANTUM · LIUYAO
             </span>
           </span>
@@ -58,21 +59,13 @@ export function SiteHeader() {
         </nav>
 
         <button
-          aria-label="打开导航菜单"
-          className="md:hidden rounded-md border border-ink-700 p-2 text-gold-200"
+          aria-label={open ? "关闭导航菜单" : "打开导航菜单"}
+          aria-expanded={open}
+          className="md:hidden grid h-11 w-11 place-items-center rounded-md border border-ink-700 text-gold-200 transition hover:border-gold-500/40"
           onClick={() => setOpen((o) => !o)}
+          type="button"
         >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            {open ? (
-              <path d="M6 6l12 12M6 18L18 6" strokeLinecap="round" />
-            ) : (
-              <>
-                <path d="M3 6h18" strokeLinecap="round" />
-                <path d="M3 12h18" strokeLinecap="round" />
-                <path d="M3 18h18" strokeLinecap="round" />
-              </>
-            )}
-          </svg>
+          {open ? <Close size={20} /> : <Menu size={20} />}
         </button>
       </div>
 

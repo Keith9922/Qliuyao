@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { loadHistory, clearHistory, type HistoryEntry } from "@/lib/history";
 import { HexagramGlyph } from "./HexagramGlyph";
+import { Scroll, Close } from "./Icon";
 
 /**
  * 历史抽屉：从右侧滑出，展示过去 30 次卦象。
@@ -26,7 +27,7 @@ export function HistoryDrawer() {
         aria-label="打开历史卦签"
         type="button"
       >
-        <span className="text-xl">📜</span>
+        <Scroll size={20} />
       </button>
 
       <AnimatePresence>
@@ -53,13 +54,11 @@ export function HistoryDrawer() {
                 </div>
                 <button
                   onClick={() => setOpen(false)}
-                  className="rounded-md border border-ink-700 p-2 text-gold-200 hover:bg-ink-800"
-                  aria-label="关闭"
+                  className="grid h-11 w-11 place-items-center rounded-md border border-ink-700 text-gold-200 transition hover:bg-ink-800"
+                  aria-label="关闭历史抽屉"
                   type="button"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M6 6l12 12M6 18L18 6" strokeLinecap="round" />
-                  </svg>
+                  <Close size={18} />
                 </button>
               </header>
 
