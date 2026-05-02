@@ -220,6 +220,46 @@ body::before {
   transform: scale(0.98);
 }
 
+/* hero-chip：英雄区圆角胶囊 CTA，按主题分量子色/朱砂色 */
+.hero-chip {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  border: 1px solid;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              background-color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+.hero-chip:hover {
+  transform: translateY(-1px);
+}
+.hero-chip-quantum {
+  border-color: rgba(71, 91, 255, 0.4);
+  background: rgba(20, 25, 104, 0.45);
+  color: theme("colors.quantum.200");
+}
+.hero-chip-quantum:hover {
+  border-color: rgba(146, 174, 255, 0.7);
+  box-shadow: 0 6px 22px rgba(71, 91, 255, 0.25);
+}
+.hero-chip-cinnabar {
+  border-color: rgba(196, 74, 54, 0.45);
+  background: rgba(124, 38, 24, 0.2);
+  color: theme("colors.cinnabar.300");
+}
+.hero-chip-cinnabar:hover {
+  border-color: rgba(224, 125, 101, 0.75);
+  box-shadow: 0 6px 22px rgba(196, 74, 54, 0.2);
+}
+
 /* 小尺寸按钮：仍要 ≥44px 触控（在小字体上靠 padding 撑起来） */
 .btn-primary.btn-sm,
 .btn-ghost.btn-sm {

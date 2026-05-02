@@ -111,14 +111,42 @@ export const Atom = makeIcon("Atom", () => (
   </>
 ));
 
-/** 太极（项目主标识） */
+/** 太极 + 量子轨道融合（项目主标识，线描风格，单色继承父级） */
 export const Taiji = makeIcon("Taiji", () => (
-  <>
-    <circle cx="12" cy="12" r="9" />
-    <path d="M12 3a4.5 4.5 0 0 0 0 9 4.5 4.5 0 0 1 0 9" fill="currentColor" stroke="none" />
-    <circle cx="12" cy="7.5" r="1" fill="currentColor" stroke="none" />
-    <circle cx="12" cy="16.5" r="1" />
-  </>
+  <g>
+    {/* 量子轨道：3 椭圆 0° / 60° / 120°，subtle */}
+    <g strokeWidth="0.7" opacity="0.55">
+      <ellipse cx="12" cy="12" rx="11" ry="4.2" />
+      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(60 12 12)" />
+      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(120 12 12)" />
+    </g>
+    {/* 太极外圆 */}
+    <circle cx="12" cy="12" r="6.6" />
+    {/* 阴阳分隔 S 曲线 */}
+    <path d="M 12 5.4 A 3.3 3.3 0 0 1 12 12 A 3.3 3.3 0 0 0 12 18.6" />
+    {/* 阴阳眼（量子比特锚点） */}
+    <circle cx="12" cy="8.7" r="0.85" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="15.3" r="0.85" fill="currentColor" stroke="none" />
+  </g>
+));
+
+/** Taiji 大尺寸标识：英雄区使用，多一层"测量动画"光环 */
+export const TaijiSeal = makeIcon("TaijiSeal", () => (
+  <g>
+    {/* 外层光环（朱印外围） */}
+    <circle cx="12" cy="12" r="11.2" strokeWidth="0.4" opacity="0.5" />
+    {/* 量子轨道 */}
+    <g strokeWidth="0.7" opacity="0.7">
+      <ellipse cx="12" cy="12" rx="10.4" ry="3.8" />
+      <ellipse cx="12" cy="12" rx="10.4" ry="3.8" transform="rotate(60 12 12)" />
+      <ellipse cx="12" cy="12" rx="10.4" ry="3.8" transform="rotate(120 12 12)" />
+    </g>
+    {/* 太极 */}
+    <circle cx="12" cy="12" r="6.4" />
+    <path d="M 12 5.6 A 3.2 3.2 0 0 1 12 12 A 3.2 3.2 0 0 0 12 18.4" />
+    <circle cx="12" cy="8.8" r="0.85" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="15.2" r="0.85" fill="currentColor" stroke="none" />
+  </g>
 ));
 
 /** 书 / 经文 */

@@ -9,6 +9,7 @@ import { DerivedHexagrams } from "./DerivedHexagrams";
 import { Interpretation } from "./Interpretation";
 import { saveHistory } from "@/lib/history";
 import { ArrowRight, ArrowLeft, Copy, Check, Taiji } from "./Icon";
+import { Reveal } from "./Reveal";
 import { POSITION_NAME } from "@/lib/analysis";
 import type { Yao } from "@/lib/quantum";
 import type { DivineResult } from "@/lib/types";
@@ -168,7 +169,7 @@ export function DivinationFlow() {
               )}
             </div>
 
-            <section>
+            <Reveal>
               <Interpretation
                 question={question}
                 yaos={result.yaos}
@@ -176,29 +177,27 @@ export function DivinationFlow() {
                 bianBin={result.bian?.binary || result.ben.binary}
                 autoStart
               />
-            </section>
+            </Reveal>
 
-            <section>
+            <Reveal delay={0.05}>
               <SectionHeader
                 title="卦象解析"
-                subtitle="爻位 · 当位 · 中正 · 应位 · 承乘"
-                desc="易学家用来判断卦象内在结构的几个关键概念。下面是这一卦的全部位结构分析——动爻有特别标记。"
+                subtitle="当位 · 中正 · 应位 · 承乘"
               />
               <StructureAnalysis analysis={result.ben.analysis} changing={result.moving} />
-            </section>
+            </Reveal>
 
-            <section>
+            <Reveal delay={0.1}>
               <SectionHeader
                 title="衍生卦"
-                subtitle="互卦 · 错卦 · 综卦"
-                desc="从本卦再演化出三个角度的「参照卦」，揭示这一情境的内部结构、对立面、以及换视角看的样貌。"
+                subtitle="互 · 错 · 综"
               />
               <DerivedHexagrams
                 hu={result.derived.hu}
                 cuo={result.derived.cuo}
                 zong={result.derived.zong}
               />
-            </section>
+            </Reveal>
 
             <Footer onReset={reset} />
           </motion.div>
@@ -226,11 +225,10 @@ function AskCard({
       <div>
         <p className="font-display text-xs tracking-[0.3em] text-cinnabar-400">DIVINATION · 起卦</p>
         <h2 className="mt-2 font-display text-2xl text-gold-200 md:text-3xl">
-          沉静下来 · 把心里的事写下来
+          把心里的事写下来
         </h2>
-        <p className="mt-2 text-sm text-ink-200">
-          《周易·系辞》：「易，无思也，无为也，寂然不动，感而遂通天下之故。」
-          诚意才能照见卦象。
+        <p className="mt-1.5 font-serif text-sm italic text-ink-300">
+          「寂然不动，感而遂通」 ——《系辞》
         </p>
       </div>
 
@@ -267,16 +265,16 @@ function AskCard({
 
       <div className="flex flex-col items-center justify-between gap-3 border-t border-ink-700/40 pt-4 md:flex-row">
         <p className="text-[11px] text-ink-400">
-          ✦ 点击「起卦」会让量子电路跑 6 次，每次 3 比特 H 门 + 单 shot 测量。
+          量子电路 · 6 次 H<sup>⊗3</sup> + 单 shot 测量
         </p>
         <button
           type="button"
-          className="btn-primary"
+          className="btn-primary group"
           onClick={onCast}
           disabled={!question.trim()}
         >
           <span>起 · 卦</span>
-          <ArrowRight size={16} />
+          <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
         </button>
       </div>
 
@@ -315,12 +313,10 @@ function CastingCard({
         <QuantumCircuit step={step} result={measure} measuring={measuring} />
 
         <div className="rounded-md border border-quantum-700/30 bg-quantum-900/20 p-5">
-          <p className="font-display text-sm text-quantum-200">摇卦中 · 第 {step} / 6 次电路</p>
-          <p className="mt-1 text-[11px] leading-relaxed text-ink-300">
-            每爻独立：3 个量子比特经 Hadamard 门进入 (|0⟩+|1⟩)/√2 的叠加态。
-            三比特张量积形成 8 种本征态等概率叠加。单次测量后波函数坍缩，得到一组 0/1 串。
-            按 1 的个数对应「老阴 / 少阳 / 少阴 / 老阳」——与传统三铜钱卦法概率分布完全一致。
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="font-display text-sm text-quantum-200">摇卦中 · 第 {step} / 6 次</p>
+            <p className="font-mono text-[11px] text-ink-400">|+⟩ → |k⟩</p>
+          </div>
           <div className="mt-3 flex justify-center gap-1.5" aria-hidden>
             {Array.from({ length: 6 }).map((_, i) => (
               <span
@@ -329,7 +325,7 @@ function CastingCard({
                   i < step
                     ? "bg-gold-400"
                     : i === step - 1
-                      ? "bg-gold-400 animate-pulse"
+                      ? "animate-pulse bg-gold-400"
                       : "bg-ink-700"
                 }`}
               />
@@ -499,19 +495,14 @@ function NoChangeCard({ rule }: { rule: string }) {
 function SectionHeader({
   title,
   subtitle,
-  desc,
 }: {
   title: string;
   subtitle: string;
-  desc: string;
 }) {
   return (
-    <header className="mb-3 flex items-end justify-between gap-4">
-      <div>
-        <h2 className="font-display text-xl text-gold-200">{title}</h2>
-        <p className="text-[11px] text-ink-300">{subtitle}</p>
-      </div>
-      <p className="hidden max-w-md text-right text-[11px] text-ink-400 md:block">{desc}</p>
+    <header className="mb-3">
+      <h2 className="font-display text-xl text-gold-200">{title}</h2>
+      <p className="text-[12px] tracking-wide text-ink-300">{subtitle}</p>
     </header>
   );
 }
@@ -519,14 +510,6 @@ function SectionHeader({
 function Footer({ onReset }: { onReset: () => void }) {
   return (
     <div className="flex flex-col items-center gap-3 pt-6">
-      <p className="max-w-md text-center text-[11px] leading-relaxed text-ink-400">
-        ✦ 这是一个量子计算 + 易经的跨界小实验 ✦<br />
-        AI 给的是基于卦辞文本的合理引申，不是先知预言。
-        <a href="/disclaimer" className="ml-1 text-cinnabar-400 underline-offset-2 hover:underline">
-          请勿用于重大决策
-        </a>
-        。
-      </p>
       <button onClick={onReset} type="button" className="btn-primary">
         <span>再起一卦</span>
       </button>

@@ -15,14 +15,14 @@ export default function IndexPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-10 md:py-16">
       <header className="text-center">
-        <p className="font-display text-[10px] tracking-[0.5em] text-gold-400">
+        <p className="font-display text-[11px] tracking-[0.5em] text-gold-400">
           I-CHING · 六十四卦
         </p>
         <h1 className="mt-4 font-display text-4xl text-gold-100 md:text-5xl">
           六 · 十 · 四 · 卦
         </h1>
-        <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-ink-200">
-          通行本《周易》卦序索引。点开每一卦，可以看到完整的卦辞、爻辞、彖传与大象传。
+        <p className="mx-auto mt-3 max-w-md text-sm text-ink-300">
+          通行本卦序 · 含卦辞 / 爻辞 / 彖传 / 大象传
         </p>
       </header>
 
@@ -33,15 +33,18 @@ export default function IndexPage() {
             <Link
               key={binary}
               href={`/index-64/${binary}`}
-              className="scroll-card group flex flex-col items-center gap-2 p-4 transition hover:border-gold-400/40 hover:scale-[1.02]"
+              className="scroll-card group relative flex flex-col items-center gap-2 overflow-hidden p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-gold-400/50 hover:shadow-glow-gold"
             >
-              <span className="font-mono text-[10px] text-ink-400">No.{data.num}</span>
-              <HexagramGlyph binary={binary} size="sm" />
-              <span className="font-display text-2xl text-gold-200">{data.symbol}</span>
+              <span className="absolute right-2 top-2 font-mono text-[10px] text-ink-500 transition group-hover:text-gold-400">
+                {String(data.num).padStart(2, "0")}
+              </span>
+              <span className="transition-transform duration-500 group-hover:scale-110">
+                <HexagramGlyph binary={binary} size="sm" />
+              </span>
               <span className="font-display text-base text-gold-100">{data.name}</span>
               <span className="text-[10px] italic text-ink-300">{data.pinyin}</span>
               <span className="text-[10px] text-ink-400">
-                上{upper.name} 下{lower.name}
+                {upper.name} · {lower.name}
               </span>
             </Link>
           );
