@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { listAllHexagrams } from "@/lib/hexagrams";
-import { parseTrigrams, trigramPairLabel } from "@/lib/trigrams";
+import { parseTrigrams } from "@/lib/trigrams";
 import { HexagramGlyph } from "@/components/HexagramGlyph";
 
 export const metadata: Metadata = {

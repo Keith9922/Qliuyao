@@ -99,7 +99,7 @@ export default function AboutPage() {
           <h2>致敬</h2>
           <ul>
             <li><strong>《周易》</strong> —— 公元前 11 世纪。本项目使用通行本经文，含卦辞、爻辞、彖传、大象传，公共领域。</li>
-            <li><strong>邵雍 (1011–1077)</strong> —— "伏羲六十四卦次序图"作者。</li>
+            <li><strong>邵雍 (1011–1077)</strong> —— 「伏羲六十四卦次序图」作者。</li>
             <li><strong>戈特弗里德·莱布尼茨 (1646–1716)</strong> —— 二进制发明人。</li>
             <li><strong>本源量子（OriginQ）</strong> —— pyqpanda3 SDK。</li>
             <li><strong>DeepSeek</strong> —— V4 模型 API。</li>
