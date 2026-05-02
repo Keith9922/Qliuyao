@@ -12,9 +12,26 @@
 
 **把铜钱换成量子比特  ·  让 AI 替你解卦**
 
-[一分钟跑起来](#一分钟跑起来)  ·  [它在做什么](#它在做什么)  ·  [背后的故事](#背后的故事)  ·  [详细文档](#详细文档)
+[🌐 在线试用](https://qliuyao.vercel.app)  ·  [一分钟跑起来](#一分钟跑起来)  ·  [它在做什么](#它在做什么)  ·  [背后的故事](#背后的故事)  ·  [详细文档](#详细文档)
 
 </div>
+
+---
+
+## 🌐 网页版（推荐）
+
+不想装 conda？直接打开浏览器：
+
+> **[qliuyao.vercel.app](https://qliuyao.vercel.app)**
+
+网页版用 TypeScript 复刻了量子电路（数学等价于 pyqpanda3 H⊗H⊗H + 单 shot 测量），
+配合完整的 64 卦经文 + 彖传 + 大象传知识库 + AI 流式解卦。
+
+部署在 Vercel Edge Runtime，全球访问；想自部署可以一键：
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FKeith9922%2FQliuyao&root-directory=web&env=DEEPSEEK_API_KEY)
+
+源码在 [`web/`](web/) 子目录，部署细节见 [web/README.md](web/README.md)。
 
 ---
 
@@ -418,10 +435,10 @@ DEEPSEEK_API_KEY=你的 key  # 变量名保留
 
 - [ ] **接真机**：pyqpanda3 的 `qcloud` 子模块支持把电路提交到本源云的悟源超导真机
 - [ ] **录小象传**：现在有彖传 + 大象传，没录每爻的小象（64 × 6 = 384 条）
-- [ ] **流式 AI**：改 SSE 流式输出，体验接近 ChatGPT
-- [ ] **Web 版**：套个 Streamlit/Gradio 做网页摇卦器
-- [ ] **可视化**：matplotlib 直方图展示分布
-- [ ] **历史记录**：把每次起卦存成 SQLite，做"我的卦签集"
+- [x] **流式 AI**：网页版已用 SSE 流式输出，体验接近 ChatGPT（见 `web/`）
+- [x] **Web 版**：Next.js + Vercel Edge 部署，[qliuyao.vercel.app](https://qliuyao.vercel.app)
+- [x] **可视化**：网页版有 SVG 量子电路图、概率柱状图、卡方检验交互
+- [x] **历史记录**：网页版用 localStorage 存最近 30 次卦签
 
 ---
 
